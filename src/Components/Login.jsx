@@ -14,7 +14,7 @@ const Login = () => {
     const [password,setPasword] = useState('');
     const handleLogin = async (e) => {
         try {
-            const response = await axios.post('http://localhost:3001/login',{
+            const response = await axios.post('https://portfolio-server-vaibhav.vercel.app/login',{
                 email,
                 password
             })
