@@ -25,7 +25,7 @@ const Login = () => {
                     position:'top-right'
                 })
                 setTimeout(() => {
-                    window.location.replace = '/home'
+                    window.location.replace('/home');
                 },3000)
             }
         } catch (error) {
