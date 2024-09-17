@@ -27,7 +27,7 @@ const Home = () => {
   }
   const handleDelete = async  (projectId) => {
     try {
-      await axios.delete(`http://localhost:3001/delete-project/${projectId}`)
+      await axios.delete(`https://portfolio-admin-vaibhav.vercel.app/delete-project/${projectId}`)
       fetchProjects();
     } catch (error) {
      console.log(error) 
