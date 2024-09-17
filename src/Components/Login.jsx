@@ -40,9 +40,9 @@ const Login = () => {
     }
     return (
         <div>
-            <div className='flex items-center justify-center h-screen px-4 '>
-                <div className='border-gray-300 border-2 bg-white rounded-3xl px-4 md:px-5 py-4 md:py-10 w-fit h-fit'>
-                    <h2 className='font-poppins py-2 font-bold text-3xl'>Welcome <span className='text-purple-700'>back</span> </h2>
+            <div className='flex items-center justify-center h-screen px-5'>
+                <div className='border-gray-300 border-2 bg-white rounded-3xl px-4 md:px-5 py-4 md:py-10 w-full md:w-fit h-fit'>
+                    <h2 className='font-poppins py-2 font-bold text-2xl md:text-3xl'>Welcome <span className='text-purple-700'>back</span> </h2>
                     <h5 className='font-poppins py-1 font-medium text-base text-gray-600'>Welcome back! Please enter your details</h5>
                     <div className='py-2 md:py-5'>
                         <div className='flex flex-col gap-3 py-2'>

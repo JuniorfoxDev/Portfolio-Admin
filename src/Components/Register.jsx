@@ -40,7 +40,7 @@ const Register = () => {
   return (
     <div>
       <div className='flex items-center justify-center px-4 py-4'>
-        <div className='border-gray-300 border-2 bg-white rounded-3xl px-5 py-4 md:py-3 w-fit h-fit'>
+        <div className='border-gray-300 border-2 bg-white rounded-3xl px-5 py-4 md:py-3 w-full md:w-fit h-fit'>
           <h2 className='font-poppins py-2 font-bold text-3xl'>Welcome <span className='text-purple-700'>!</span> </h2>
           <h5 className='font-poppins py-1 font-medium text-base text-gray-600'>Welcome Here! Please enter your details</h5>
           <div className='py-2'>

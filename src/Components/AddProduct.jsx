@@ -16,7 +16,11 @@ const AddProduct = () => {
       setImage(file);
     }
   };
-
+  const handleHome = () => {
+    setTimeout(() => {
+      window.location.replace('/home');
+    },200);
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !description || !link || !image) {
@@ -52,9 +56,11 @@ const AddProduct = () => {
   return (
     <div className='px-3 md:px-20 py-5'>
       <div>
-        <h2 className='font-poppins text-4xl font-medium'>Add Project</h2>
+        <button onClick={handleHome}
+                className='bg-black text-white px-4 py-2 font-poppins font-normal text-xl rounded-full hover:bg-blue-200 hover:text-black hover:font-poppins hover:font-semibold'>Home</button>
+        <h2 className='font-poppins text-4xl font-medium pt-2'>Add Project</h2>
         <div className='flex flex-col md:flex-row justify-between items-center gap-10'>
-          <form onSubmit={handleSubmit} className='form py-5'>
+          <form onSubmit={handleSubmit} className='form py-1'>
             <div className='flex flex-col py-4 gap-3'>
               <label htmlFor="name" className='text-2xl font-bold font-poppins'>Project Name</label>
               <input
