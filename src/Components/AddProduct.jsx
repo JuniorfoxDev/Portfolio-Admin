@@ -53,7 +53,7 @@ const AddProduct = () => {
     <div className='px-3 md:px-20 py-5'>
       <div>
         <h2 className='font-poppins text-4xl font-medium'>Add Project</h2>
-        <div className='flex flex-row md:flex-col justify-between items-center gap-10'>
+        <div className='flex flex-col md:flex-row justify-between items-center gap-10'>
           <form onSubmit={handleSubmit} className='form py-5'>
             <div className='flex flex-col py-4 gap-3'>
               <label htmlFor="name" className='text-2xl font-bold font-poppins'>Project Name</label>
