@@ -25,6 +25,14 @@ const Home = () => {
     localStorage.removeItem('user');
     window.location.href = '/';
   }
+  const handleDelete = async  (projectId) => {
+    try {
+      await axios.delete(`http://localhost:3001/delete-project/${projectId}`)
+      fetchProjects();
+    } catch (error) {
+     console.log(error) 
+    }
+  }
   return (
     <div className='px-4 md:px-32 py-10'>
       <div className='flex gap-3'>
@@ -42,6 +50,7 @@ const Home = () => {
             <div className="flex items-center justify-between">
               <p className="font-poppins font-medium text-lg">{project.description}</p>
               <a href={project.link} target='_blank'  className="hover:bg-black p-3 hover:rounded-full text-center hover:text-white"><GoArrowUpRight className="text-2xl  font-poppins font-bold " /> </a>
+              <a onClick={() => handleDelete(project._id)}  className="font-poppins text-red-700 cursor-pointer font-bold hover:bg-black p-3 hover:rounded-full text-center hover:text-white">Delete</a>
             </div>
           </div>
         </div>
