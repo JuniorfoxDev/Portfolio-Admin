@@ -20,12 +20,12 @@ const Login = () => {
             })
             const {token} = response.data;
             localStorage.setItem('token',token);
-            if(response.status = 200){
+            if(response.status === 200){
                 toast.success("Login Sucess !",{
                     position:'top-right'
                 })
                 setTimeout(() => {
-                    window.location.href = '/home'
+                    window.location.replace = '/home'
                 },3000)
             }
         } catch (error) {
