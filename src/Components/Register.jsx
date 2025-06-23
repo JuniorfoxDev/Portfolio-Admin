@@ -1,33 +1,28 @@
-import React, { useState } from 'react'
-import { Link, Navigate } from 'react-router-dom'
-import { FaEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa6";
+import React, { useState } from "react";
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios"
 const Register = () => {
-  const [passwordVisible,setPasswordVisible] = useState(false);
-  const togglePassword = () => {
-    setPasswordVisible(!passwordVisible)
-  }
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [name,setName] = useState('');
-  const [password,setPassword] = useState('');
   const [email,setEmail] = useState('');
+  const [password,setPassword] = useState('');
   const handleRegister = async(e) => {
     e.preventDefault();
-    try{
-        const response = await axios.post('https://portfolio-server-vaibhav.vercel.app/register',{
-          name,
-          email,
-          password,
-        });
-        toast.success("Registered Success !",{
-          position: 'top-right'
-        })
-        setTimeout(() => {
-          window.location.href = '/'
-        }, 5000)
-    } catch (error){
+    try {
+      const response = await axios.post('https://portfolio-server-vaibhav.vercel.app/register', {
+        name,
+        email,
+        password,
+      });
+      toast.success("Registered Success !", {
+        position: 'top-right'
+      })
+      setTimeout(() => {
+        window.location.href = '/'
+      }, 1000)
+    } catch (error) {
       console.log(error)
       toast.error("Registered Failed !", {
         position: 'top-right'
@@ -38,61 +33,147 @@ const Register = () => {
     window.location.href = '/'
   }
   return (
-    <div>
-      <div className='flex items-center justify-center px-4 py-4'>
-        <div className='border-gray-300 border-2 bg-white rounded-3xl px-5 py-4 md:py-3 w-full md:w-fit h-fit'>
-          <h2 className='font-poppins py-2 font-bold text-3xl'>Welcome <span className='text-purple-700'>!</span> </h2>
-          <h5 className='font-poppins py-1 font-medium text-base text-gray-600'>Welcome Here! Please enter your details</h5>
-          <div className='py-2'>
-            <div className='flex flex-col gap-3 py-2'>
-              <label htmlFor="" className='font-poppins font-semibold text-xl text-black/[0.9]'>Username</label>
-              <input type="text" name="username" id="username" value={name} onChange={(e) => setName(e.target.value)} className='border-gray-600 border-2 py-2 outline-none px-2 text-lg rounded-lg placeholder:font-poppins placeholder:text-gray-300-100 placeholder:text-lg focus:border-blue-200' placeholder='Enter your user name' />
-            </div>
-            <div className='flex flex-col gap-3 py-2'>
-              <label htmlFor="" className='font-poppins font-semibold text-xl text-black/[0.9]'>Email</label>
-              <input type="Email" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className='border-gray-600 border-2 py-2 outline-none px-2 text-lg rounded-lg placeholder:font-poppins placeholder:text-gray-300-100 placeholder:text-lg focus:border-blue-200' placeholder='Enter your email id' />
-            </div>
-            <div className='relative flex flex-col gap-3 py-2'>
-              <label htmlFor="" className='font-poppins font-semibold text-xl text-black/[0.9]'>Password</label>
-              <input type={passwordVisible ? 'text' : 'password'} name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} className='border-gray-600 border-2 py-2 outline-none px-2 text-lg rounded-lg focus:border-blue-200 placeholder:font-poppins placeholder:text-gray-300-100 placeholder:text-lg ' placeholder='Enter your Password' />
-              <button type='button' onClick={togglePassword} className='absolute inset-y-[4.5rem] right-0 pr-3 flex items-center text-sm leading-5'>
-               {passwordVisible ? (
-                 <FaEye size={28} className='text-gray-600'/>
-               ) : (
-                <FaEyeSlash size={28} className='text-gray-200'/>
-               )}
-              </button>
-            </div>
-            <div className=''>
-              <Link to='/' className='font-poppins relative float-right py-2 text-base text-purple-700 font-medium'>Forgot Password</Link>
-            </div>
-            <div className='text-center bg-purple-400 mt-12 py-2 text-white rounded-full font-poppins text-xl hover:shadow-lg cursor-pointer '>              
-                <button type='submit' onClick={handleRegister} >Register</button>
-            </div>
-            <div className='py-4'>
-              <p className='text-center font-poppins text-lg'>----- Or -------</p>
-              <div className='text-center bg-purple-300 mt-3 py-2 text-white rounded-full font-poppins text-xl hover:shadow-lg cursor-pointer '>
-                <button  onClick={handleLogin}>Login</button>
-              </div>
+    <div className="bg-gradient-to-br from-sky-500 to-sky-800 min-h-screen flex items-center justify-center p-4">
+      <div className="bg-white shadow-2xl rounded-xl p-8 md:py-4 px-6  w-full max-w-md transform transition-all duration-700 hover:scale-95">
+        <div className="text-center mb-4">
+          <h1 className="text-4xl font-bold text-gray-800">
+            Admin <span className="text-sky-500">Registration</span>
+          </h1>
+          <p className="text-gray-600 mt-2">Create a new administrator account</p>
+        </div>
+
+        <form className="space-y-6" onSubmit={handleRegister}>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="fullname">
+              Full Name
+            </label>
+            <div className="relative">
+              <span className="material-icons-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                person
+              </span>
+              <input
+                type="text"
+                id="fullname"
+                name="fullname"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter full name"
+                className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-sky-500 focus:border-sky-500 text-sm transition duration-150 ease-in-out"
+                required
+              />
             </div>
           </div>
-        </div>
-      </div>
-    <ToastContainer
-      position='top-right'
-      autoClose={3000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme='colored'
-      transition={Bounce}
-    />
-    </div>
-  )
-}
 
-export default Register
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="email">
+              Admin Email
+            </label>
+            <div className="relative">
+              <span className="material-icons-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                email
+              </span>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter admin email"
+                className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-sky-500 focus:border-sky-500 text-sm transition duration-150 ease-in-out"
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="password">
+              Password
+            </label>
+            <div className="relative">
+              <span className="material-icons-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                lock_outline
+              </span>
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Create a strong password"
+                className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-sky-500 focus:border-sky-500 text-sm transition duration-150 ease-in-out"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-sky-500"
+              >
+                <span className="material-icons-outlined">
+                  {showPassword ? "visibility" : "visibility_off"}
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="confirmPassword">
+              Confirm Password
+            </label>
+            <div className="relative">
+              <span className="material-icons-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                lock
+              </span>
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Confirm your password"
+                className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-sky-500 focus:border-sky-500 text-sm transition duration-150 ease-in-out"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-sky-500"
+              >
+                <span className="material-icons-outlined">
+                  {showConfirmPassword ? "visibility" : "visibility_off"}
+                </span>
+              </button>
+            </div>
+          </div>
+          <div>
+            <button
+              type="submit"
+              className="w-full bg-sky-500 hover:bg-sky-700 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-50 transition duration-150 ease-in-out transform hover:-translate-y-0.5"
+            >
+              Register
+            </button>
+          </div>
+        </form>
+
+        <p className="mt-8 text-center text-sm text-gray-500">
+          Already have an admin account?{" "}
+          <button onClick={handleLogin} className="font-medium text-sky-500 hover:text-sky-700">
+            Login Here
+          </button>
+        </p>
+      </div>
+      <ToastContainer
+        position='top-right'
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme='colored'
+        transition={Bounce}
+      />
+    </div>
+  );
+};
+
+export default Register;

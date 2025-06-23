@@ -1,85 +1,148 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { FaEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa6";
-import axios from 'axios'
-import { Bounce, ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState } from "react";
+import axios from "axios";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Login = () => {
-    const [passwordVisible, setPasswordVisible] = useState(false);
-    const togglePassword = () => {
-        setPasswordVisible(!passwordVisible)
-    }
-    const [email,setEmail] = useState('');
-    const [password,setPasword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleTogglePassword = () => {
+        setShowPassword(!showPassword);
+    };
+
     const handleLogin = async (e) => {
+        e.preventDefault(); // ✅ Prevent page reload on form submit
         try {
-            const response = await axios.post('https://portfolio-server-vaibhav.vercel.app/login',{
-                email,
-                password
-            })
-            const {token} = response.data;
-            localStorage.setItem('token',token);
-            if(response.status === 200){
-                toast.success("Login Sucess !",{
-                    position:'top-right'
-                })
+            const response = await axios.post(
+                "https://portfolio-server-vaibhav.vercel.app/login",
+                {
+                    email,
+                    password,
+                }
+            );
+
+            if (response.status === 200) {
+                const { token } = response.data;
+                localStorage.setItem("token", token);
+
+                toast.success("Login Success!", { position: "top-right" });
                 setTimeout(() => {
-                    window.location.replace('/home');
-                },3000)
+                    window.location.replace("/home");
+                }, 2000);
+            } else {
+                toast.error("Login failed! Please try again.", { position: "top-right" });
             }
         } catch (error) {
-            console.log(error);
-            toast.error("Login Failed !",{
-                position: 'top-right'
-            })
+            console.error("Login error:", error);
+            toast.error(
+                error.response?.data?.message || "Login failed! Please check credentials.",
+                { position: "top-right" }
+            );
         }
-    }
+    };
+
     const handleRegister = () => {
-        window.location.href = '/register'
-    }
+        window.location.href = "/register";
+    };
+
     return (
-        <div>
-            <div className='flex items-center justify-center h-screen px-5'>
-                <div className='border-gray-300 border-2 bg-white rounded-3xl px-4 md:px-5 py-4 md:py-10 w-full md:w-fit h-fit'>
-                    <h2 className='font-poppins py-2 font-bold text-2xl md:text-3xl'>Welcome <span className='text-purple-700'>back</span> </h2>
-                    <h5 className='font-poppins py-1 font-medium text-base text-gray-600'>Welcome back! Please enter your details</h5>
-                    <div className='py-2 md:py-5'>
-                        <div className='flex flex-col gap-3 py-2'>
-                            <label htmlFor="" className='font-poppins font-semibold text-xl text-black/[0.9]'>Email</label>
-                            <input type="text" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className='border-gray-600 border-2 py-2 outline-none px-2 text-lg rounded-lg placeholder:font-poppins placeholder:text-gray-300-100 placeholder:text-lg focus:border-blue-200' placeholder='Enter your email id' />
+        <div className="bg-gradient-to-br from-sky-500 to-sky-800 min-h-screen flex items-center justify-center p-4">
+            <div className="bg-white shadow-2xl rounded-xl p-8 md:p-12 w-full max-w-md transform transition-all duration-500 hover:scale-105">
+                <div className="text-center mb-10">
+                    <h1 className="text-4xl font-bold text-gray-800">
+                        LogIn <span className="text-sky-500">Portal</span>
+                    </h1>
+                    <p className="text-gray-600 mt-2">Secure login portfolio admin</p>
+                </div>
+
+                <form onSubmit={handleLogin} className="space-y-6">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="email">
+                            Email
+                        </label>
+                        <div className="relative">
+                            <span className="material-icons-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                admin_panel_settings
+                            </span>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Enter email address"
+                                className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-sky-500 focus:border-sky-500 text-sm transition duration-150 ease-in-out"
+                                required
+                            />
                         </div>
-                        <div className='relative flex flex-col gap-3 py-2'>
-                            <label htmlFor="" className='font-poppins font-semibold text-xl text-black/[0.9]'>Password</label>
-                            <input type={passwordVisible ? 'text' : 'password'} name="password" id="password" value={password} onChange={(e) => setPasword(e.target.value)} className='border-gray-600 border-2 py-2 outline-none px-2 text-lg rounded-lg focus:border-blue-200 placeholder:font-poppins placeholder:text-gray-300-100 placeholder:text-lg ' placeholder='Enter your Password' />
-                            <button type='button' onClick={togglePassword} className='absolute inset-y-[4.5rem] right-0 pr-3 flex items-center text-sm leading-5'>
-                                {passwordVisible ? (
-                                    <FaEye size={28} className='text-gray-600' />
-                                ) : (
-                                    <FaEyeSlash size={28} className='text-gray-200' />
-                                )}
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="password">
+                            Password
+                        </label>
+                        <div className="relative">
+                            <span className="material-icons-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                lock
+                            </span>
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                id="password"
+                                name="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="Enter password"
+                                className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-sky-500 focus:border-sky-500 text-sm transition duration-150 ease-in-out"
+                                required
+                            />
+                            <button
+                                type="button"
+                                onClick={handleTogglePassword}
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-sky-500"
+                            >
+                                <span className="material-icons-outlined">
+                                    {showPassword ? "visibility" : "visibility_off"}
+                                </span>
                             </button>
                         </div>
-                        <div className='font-poppins relative float-right py-2 text-base text-purple-700 font-medium'>
-                            <button onClick={handleRegister} >Forgot Password</button>
-                        </div>
-                        <div className=''>
-                            <div className='text-center bg-purple-400 mt-12 py-2 text-white rounded-full font-poppins text-xl hover:shadow-lg cursor-pointer '>
-                                <button  onClick={handleLogin}>Login</button>
-                            </div>
-                        </div>
-                        {/* <div className='py-4'>
-                            <p className='text-center font-poppins text-lg'>----- Or -------</p>
-                            <div className='text-center bg-purple-300 mt-3 py-2 text-white rounded-full font-poppins text-xl hover:shadow-lg cursor-pointer ' >
-                                <button onClick={handleRegister}>Register</button>
-                            </div>
-                        </div> */}
                     </div>
-                </div>
+
+                    <div className="flex items-center justify-end">
+                        <button
+                            type="button"
+                            className="text-sm font-medium text-sky-500 hover:text-sky-700 transition duration-150"
+                            onClick={() => toast.info("Forgot password feature coming soon!", { position: "top-right" })}
+                        >
+                            Forgot Password?
+                        </button>
+                    </div>
+
+                    <div>
+                        <button
+                            type="submit"
+                            className="w-full bg-sky-500 hover:bg-sky-700 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-50 transition duration-150 transform hover:-translate-y-0.5"
+                        >
+                            Login
+                        </button>
+                    </div>
+                </form>
+
+                <p className="mt-8 text-center text-sm text-gray-500">
+                    Need to create an admin account?{" "}
+                    <button
+                        onClick={handleRegister}
+                        className="font-medium text-sky-500 hover:text-sky-700"
+                    >
+                        Register New Admin
+                    </button>
+                </p>
             </div>
+
             <ToastContainer
-                position='top-right'
-                autoClose={3000}
+                position="top-right"
+                autoClose={2000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
@@ -87,11 +150,11 @@ const Login = () => {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme='colored'
+                theme="colored"
                 transition={Bounce}
             />
         </div>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;

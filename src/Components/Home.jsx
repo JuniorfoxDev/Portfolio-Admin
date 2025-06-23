@@ -45,22 +45,32 @@ const Home = () => {
   ];
 
   useEffect(() => {
-  axios.get("https://portfolio-server-vaibhav.vercel.app/visit-stats")
+    axios.get("https://portfolio-server-vaibhav.vercel.app/visit-stats")
       .then((res) => {
         const data = res.data;
-        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
-          "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-        const labels = data.map(d =>
-          `${monthNames[d._id.month - 1]} ${d._id.year}`
-        );
+        if (!Array.isArray(data) || data.length === 0) {
+          console.warn("No visit data found");
+          return;
+        }
+
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        data.sort((a, b) => {
+          if (a._id.year !== b._id.year) {
+            return a._id.year - b._id.year;
+          }
+          return a._id.month - b._id.month;
+        });
+
+        const labels = data.map(d => `${monthNames[d._id.month - 1]} ${d._id.year}`);
         const counts = data.map(d => d.count);
 
         setChartData({
           labels,
           datasets: [
             {
-              label: "Visits per Month",
+              label: "Website Engagement",
               data: counts,
               borderColor: "#0c7ff2",
               backgroundColor: "rgba(12, 127, 242, 0.2)",
@@ -104,14 +114,15 @@ const Home = () => {
         <main className="flex-1 px-4 sm:px-6 lg:px-10 xl:px-16 py-8">
           <div className="max-w-screen-xl mx-auto">
             <h2 className="text-3xl font-bold tracking-tight mb-6">Dashboard Overview</h2>
+
             <div className="bg-white rounded-xl border border-[#dbe0e6] shadow p-6 mb-10">
               <div className="flex justify-between items-center mb-4">
                 <div>
-                  <p className="text-lg font-semibold">Website Traffic</p>
+                  <p className="text-lg font-semibold">Website Engagement</p>
                   <p className="text-sm text-[#60758a]">By Month</p>
                 </div>
               </div>
-              <Line data={chartData} options={chartOptions} height={150} /> {/* short graph */}
+              <Line data={chartData} options={chartOptions} height={150} />
             </div>
 
             <h3 className="text-2xl font-semibold mb-4">Quick Actions</h3>
@@ -144,10 +155,6 @@ const Home = () => {
             </div>
           </div>
         </main>
-
-        <footer className="py-6 px-4 sm:px-10 text-center border-t border-[#dbe0e6] bg-white mt-12">
-          <p className="text-sm text-[#60758a]">© 2024 Admin Panel. All rights reserved.</p>
-        </footer>
       </div>
     </div>
   );
